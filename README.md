@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://douyin.wtf/" alt="logo" ><img src="./logo/logo192.png" width="120"/></a>
+<a href="https://douyin.wtf/" alt="logo" ><img src="https://raw.githubusercontent.com/Evil0ctal/Douyin_TikTok_Download_API/main/logo/logo192.png" width="120"/></a>
 </div>
 <h1 align="center">Douyin_TikTok_Download_API(抖音/TikTok API)</h1>
 
@@ -7,7 +7,7 @@
 
 [English](./README.en.md) | [简体中文](./README.md)
 
-🚀「Douyin_TikTok_Download_API」是一个开箱即用的高性能异步[抖音](https://www.douyin.com)|[TikTok](https://www.tiktok.com)数据爬取工具，支持API调用，在线批量解析及下载。
+🚀「Douyin_TikTok_Download_API」是一个开箱即用的高性能异步[抖音](https://www.douyin.com)|[TikTok](https://www.tiktok.com)|[Bilibili](https://www.bilibili.com)数据爬取工具，支持API调用，在线批量解析及下载。
 
 [![GitHub license](https://img.shields.io/github/license/Evil0ctal/Douyin_TikTok_Download_API?style=flat-square)](LICENSE)
 [![Release Version](https://img.shields.io/github/v/release/Evil0ctal/Douyin_TikTok_Download_API?style=flat-square)](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/releases/latest)
@@ -31,24 +31,65 @@
 
 </div>
 
+## 🔊 V4.0.0版本重构
+
+> TODO:
+
+- 移除了过时的bilibili代码，需要有人重写。
+- 群里有人想添加快手以及西瓜视频的解析。
+- 自述文件已经过时，需要进行重写。
+- 进行PyPi包制作
+- config.yaml文件需要进行修整。
+- 添加对用户主页的解析。
+- iOS快捷指令需要更新兼容最新的API响应和路径。
+- 桌面端下载器或浏览器插件有需要可以进行开发。
+- 解决爬虫Cookie风控问题。
+
+> 更改
+
+- 将Pywebio作为FastAPI的子APP一起运行。
+- 重写了抖音以及TikTok的接口，感谢 [@johnserf-seed](https://github.com/Johnserf-Seed)
+- 重写了文件下载的端点，现在使用异步文件IO。
+- 对所有端点进行了注解和演示值的添加。
+- 整理项目文件结构。
+
+> 备注
+
+感兴趣一起写这个项目的给请加微信`Evil0ctal`备注github项目重构，大家可以在群里互相交流学习，不允许发广告以及违法的东西，纯粹交朋友和技术交流。
+
+> 私有接口服务
+
+Discord: [TikHub Discord](https://discord.com/invite/aMEAS8Xsvz)
+
+Free Douyin/TikTok API: [TikHub Beta API](https://beta.tikhub.io/)
+
 ## 👻介绍
 
 > 🚨如需使用私有服务器运行本项目，请参考部署方式[[Docker部署](./README.md#%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F%E4%BA%8C-docker), [一键部署](./README.md#%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F%E4%B8%80-linux)]
 
-本项目是基于 [PyWebIO](https://github.com/pywebio/PyWebIO)，[FastAPI](https://fastapi.tiangolo.com/)，[AIOHTTP](https://docs.aiohttp.org/)，快速异步的[抖音](https://www.douyin.com/)/[TikTok](https://www.tiktok.com/)数据爬取工具，并通过Web端实现在线批量解析以及下载无水印视频或图集，数据爬取API，iOS快捷指令无水印下载等功能。你可以自己部署或改造本项目实现更多功能，也可以在你的项目中直接调用[scraper.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/Stable/scraper.py)或安装现有的[pip包](https://pypi.org/project/douyin-tiktok-scraper/)作为解析库轻松爬取数据等.....
+本项目是基于 [PyWebIO](https://github.com/pywebio/PyWebIO)，[FastAPI](https://fastapi.tiangolo.com/)，[HTTPX](https://www.python-httpx.org/)，快速异步的[抖音](https://www.douyin.com/)/[TikTok](https://www.tiktok.com/)数据爬取工具，并通过Web端实现在线批量解析以及下载无水印视频或图集，数据爬取API，iOS快捷指令无水印下载等功能。你可以自己部署或改造本项目实现更多功能，也可以在你的项目中直接调用[scraper.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/Stable/scraper.py)或安装现有的[pip包](https://pypi.org/project/douyin-tiktok-scraper/)作为解析库轻松爬取数据等.....
 
 *一些简单的运用场景：*
 
 *下载禁止下载的视频，进行数据分析，iOS无水印下载（搭配[iOS自带的快捷指令APP](https://apps.apple.com/cn/app/%E5%BF%AB%E6%8D%B7%E6%8C%87%E4%BB%A4/id915249334)
 配合本项目API实现应用内下载或读取剪贴板下载）等.....*
 
-## 🖥公共站点: 我很脆弱...请勿压测(·•᷄ࡇ•᷅ ）
+#### ⚠️注意：
 
-> **TikHub-API:** 支持`Douyin|TikTok`用户主页爬取该作者[主页视频数据(去水印链接, 已点赞视频列表(权限需为公开), 视频评论数据, 背景音乐视频列表数据, 等等...), 详细信息请查看TikHub-API文档，此外TikHub-API对比本项目API在抓取TikTok数据时，TikHub-API速度更快。
+- 你需要自行解决爬虫Cookie风控问题，否则可能会导致接口无法使用。
+  - 抖音网页端Cookie（自行获取并替换下面配置文件中的Cookie）： 
+  - https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/30e56e5a7f97f87d60b1045befb1f6db147f8590/crawlers/douyin/web/config.yaml#L7
+  - TikTok网页端Cookie（自行获取并替换下面配置文件中的Cookie）：
+  - https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/30e56e5a7f97f87d60b1045befb1f6db147f8590/crawlers/tiktok/web/config.yaml#L6
+- 演示站点的在线下载功能被我关掉了，有人下的视频巨大无比直接给我服务器干崩了，自己在网页解析结果里右键保存吧...
+- 演示站点的Cookie是我自己的，不保证长期有效，只起到演示作用，自己部署的话请自行获取Cookie。
+## 🖥演示站点: 我很脆弱...请勿压测(·•᷄ࡇ•᷅ ）
+
+> 😾演示站点的在线下载功能已关闭。
 
 🍔Web APP: [https://douyin.wtf/](https://douyin.wtf/)
 
-🍟API Document: [https://api.douyin.wtf/docs](https://api.douyin.wtf/docs)
+🍟API Document: [https://douyin.wtf/docs](https://douyin.wtf/docs)
 
 🌭TikHub API Document: [https://api.tikhub.io/docs](https://api.tikhub.io/docs)
 
@@ -60,68 +101,104 @@
 - [HFrost0/bilix](https://github.com/HFrost0/bilix)
 - [Tairraos/TikDown - [需更新]](https://github.com/Tairraos/TikDown/)
 
-🛸基于本项目的其他仓库
-
-- [TikHubIO/TikHub_API_PyPi](https://github.com/TikHubIO/TikHub_API_PyPi)
-- [Evil0ctal/Douyin_Tiktok_Scraper_PyPi](https://github.com/Evil0ctal/Douyin_Tiktok_Scraper_PyPi)
-
 ## ⚗️技术栈
 
-* [web_app.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/web_app.py) - [PyWebIO](https://www.pyweb.io/)
-* [web_api.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/web_api.py) - [FastAPI](https://fastapi.tiangolo.com/)
-* [scraper.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/scraper.py) - [AIOHTTP](https://docs.aiohttp.org/)
+* [/app/web](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/app/web) - [PyWebIO](https://www.pyweb.io/)
+* [/app/api](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/app/api) - [FastAPI](https://fastapi.tiangolo.com/)
+* [/crawlers](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/crawlers) - [HTTPX](https://www.python-httpx.org/)
 
-> ***scraper.py:***
+> ***/crawlers***
 
-- 向[Douyin|TikTok]的API提交请求并取回数据，处理后返回字典(dict)，支持异步。
+- 向不同平台的API提交请求并取回数据，处理后返回字典(dict)，支持异步。
 
-> ***web_api.py:***
+> ***/app/api***
 
-- 获得请求参数并使用`Scraper()`类处理数据后以JSON形式返回，视频下载，配合iOS快捷指令实现快速调用，支持异步。
+- 获得请求参数并使用`Crawlers`相关类处理数据后以JSON形式返回，视频下载，配合iOS快捷指令实现快速调用，支持异步。
 
-> ***web_app.py:***
+> ***/app/web***
 
-- 为`web_api.py`以及`scraper.py`制作的简易Web程序，将网页输入的值进行处理后使用`Scraper()`类处理并配合`web_api.py`的接口输出在网页上(类似前后端分离)
+- 使用`PyWebIO`制作的简易Web程序，将网页输入的值进行处理后使用`Crawlers`相关类处理接口输出相关数据在网页上。
 
-***以上文件的参数大多可在[config.ini](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/config.ini)中进行修改***
+***以上文件的参数大多可在对应的`config.yaml`中进行修改***
 
 ## 💡项目文件结构
 
 ```
-.
-└── Douyin_TikTok_Download_API/
-    ├── /static -> (PyWebIO static resources)
-    ├── web_app.py -> (Web APP)
-    ├── web_api.py -> (API)
-    ├── scraper.py -> (Parsing library)
-    ├── config.ini -> (Configuration file)
-    ├── install.sh -> (Installation bash script)
+./Douyin_TikTok_Download_API
+    ├─app
+    │  ├─api
+    │  │  ├─endpoints
+    │  │  └─models
+    │  ├─download
+    │  └─web
+    │      └─views
+    └─crawlers
+        ├─douyin
+        │  └─web
+        ├─hybrid
+        ├─tiktok
+        │  ├─app
+        │  └─web
+        └─utils
 ```
 
-## ✨功能：
-
-- 抖音（抖音海外版: TikTok）视频/图片解析
-- 网页端批量解析(支持抖音/TikTok混合提交)
-- 网页端解析结果页批量下载无水印视频(V3.X以上版本移除，请自行部署V2.X版本)
-- API调用获取链接数据
+## ✨支持功能：
+  
+- 网页端批量解析(支持抖音/TikTok混合解析)
+- 在线下载视频或图集。
 - 制作[pip包](https://pypi.org/project/douyin-tiktok-scraper/)方便快速导入你的项目
 - [iOS快捷指令快速调用API](https://apps.apple.com/cn/app/%E5%BF%AB%E6%8D%B7%E6%8C%87%E4%BB%A4/id915249334)实现应用内下载无水印视频/图集
-- 解析作者主页内所有视频([TikHub-API](https://api.tikhub.io/docs) 支持抖音/TikTok)
-- 解析视频内所有评论信息([TikHub-API](https://api.tikhub.io/docs) 支持抖音/TikTok)
+- 完善的API文档([Demo/演示](https://api.douyin.wtf/docs))
+- 丰富的API接口：
+  - 抖音网页版API
+    - [x] 视频数据解析
+    - [x] 获取用户主页作品数据
+    - [x] 获取用户主页喜欢作品数据
+    - [x] 获取用户主页收藏作品数据
+    - [x] 获取用户主页信息
+    - [x] 获取用户合辑作品数据
+    - [x] 获取用户直播流数据
+    - [x] 获取指定用户的直播流数据
+    - [x] 获取直播间送礼用户排行榜
+    - [x] 获取单个视频评论数据
+    - [x] 获取指定视频的评论回复数据
+    - [x] 生成msToken
+    - [x] 生成verify_fp
+    - [x] 生成s_v_web_id
+    - [x] 使用接口网址生成X-Bogus参数
+    - [x] 提取单个用户id
+    - [x] 提取列表用户id
+    - [x] 提取单个作品id
+    - [x] 提取列表作品id
+    - [x] 提取列表直播间号
+    - [x] 提取列表直播间号
+
+  - TikTok网页版API
+    - [x] 视频数据解析
+    - [x] 获取用户主页作品数据
+    - [x] 获取用户主页喜欢作品数据
+    - [x] 获取用户主页信息
+    - [x] 获取用户主页粉丝数据
+    - [x] 获取用户主页关注数据
+    - [x] 获取用户主页合辑作品数据
+    - [x] 获取用户主页搜藏数据
+    - [x] 获取用户主页播放列表数据
+    - [x] 获取单个视频评论数据
+    - [x] 获取指定视频的评论回复数据
+    - [x] 生成msToken
+    - [x] 生成ttwid
+    - [x] 使用接口网址生成X-Bogus参数
+    - [x] 提取单个用户sec_user_id
+    - [x] 提取列表用户sec_user_id
+    - [x] 提取单个作品id
+    - [x] 提取列表作品id
+    - [x] 获取用户unique_id
+    - [x] 获取列表unique_id
+
 
 ---
 
-## 🤦‍待办清单：
-
-> 💡欢迎提出建议或直接提交PR至此仓库 ♪(･ω･)ﾉ)
-
-- [ ] 编写一个桌面端的异步下载器实现本地批量下载
-- [ ] TikHub-API添加对hash_tag页面的数据爬取 [#101](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/issues/101)
-- [ ] 对其他短视频平台添加支持，如：抖音火山版，快手，西瓜视频，哔哩哔哩
-
----
-
-## 📦调用解析库:
+## 📦调用解析库（已废弃需要更新）:
 
 > 💡PyPi：[https://pypi.org/project/douyin-tiktok-scraper/](https://pypi.org/project/douyin-tiktok-scraper/)
 
@@ -139,7 +216,7 @@ async def hybrid_parsing(url: str) -> dict:
     print(f"The hybrid parsing result:\n {result}")
     return result
 
-asyncio.run(hybrid_parsing(url=input("Paste Douyin/TikTok share URL here: ")))
+asyncio.run(hybrid_parsing(url=input("Paste Douyin/TikTok/Bilibili share URL here: ")))
 ```
 
 ## 🗺️支持的提交格式：
@@ -195,40 +272,18 @@ https://www.tiktok.com/@evil0ctal/video/7156033831819037994
 
 ## 🛰️API文档
 
-> 💡提示：也可以在web_api.py的代码注释中查看接口文档
-
 ***API文档：***
 
-本地：[http://localhost:8000/docs](http://localhost:8000/docs)
+本地：[http://localhost/docs](http://localhost/docs)
 
 在线：[https://api.douyin.wtf/docs](https://api.douyin.wtf/docs)
-
-***TikHub-API文档：***
-
-在线：[https://api.tikhub.io/docs](https://api.tikhub.io/docs)
 
 ***API演示：***
 
 - 爬取视频数据(TikTok或Douyin混合解析)
-  `https://api.douyin.wtf/api?url=[视频链接/Video URL]&minimal=false`
+  `https://api.douyin.wtf/api/hybrid/video_data?url=[视频链接/Video URL]&minimal=false`
 - 下载视频/图集(TikTok或Douyin混合解析)
-  `https://api.douyin.wtf/download?url=[视频链接/Video URL]&prefix=true&watermark=false`
-- 替换域名下载视频/图集
-
-```
-[抖音]
-原始链接:
-https://www.douyin.com/video/7159502929156705567
-替换域名:
-https://api.douyin.wtf/video/7159502929156705567
-# 返回无水印视频下载响应
-[TikTok]
-original link:
-https://www.tiktok.com/@evil0ctal/video/7156033831819037994
-Replace Domain:
-https://api.douyin.wtf/@evil0ctal/video/7156033831819037994
-# Return No Watermark Video Download Response
-```
+  `https://api.douyin.wtf/api/download?url=[视频链接/Video URL]&prefix=true&with_watermark=false`
 
 ***更多演示请查看文档内容......***
 
@@ -236,7 +291,7 @@ https://api.douyin.wtf/@evil0ctal/video/7156033831819037994
 
 > 💡提示：最好将本项目部署至美国地区的服务器，否则可能会出现奇怪的BUG。
 
-推荐大家使用[Digitalocean](https://www.digitalocean.com/)的服务器，主要是因为免费。
+推荐大家使用[Digitalocean](https://www.digitalocean.com/)的服务器，因为可以白嫖。
 
 使用我的邀请链接注册，你可以获得$200的credit，当你在上面消费$25时，我也可以获得$25的奖励。
 
@@ -246,103 +301,112 @@ https://api.douyin.wtf/@evil0ctal/video/7156033831819037994
 
 > 使用脚本一键部署本项目
 
+- 本项目提供了一键部署脚本，可以在服务器上快速部署本项目。
+- 脚本是在Ubuntu 20.04 LTS上测试的，其他系统可能会有问题，如果有问题请自行解决。
 - 使用wget命令下载[install.sh](https://raw.githubusercontent.com/Evil0ctal/Douyin_TikTok_Download_API/main/bash/install.sh)至服务器并运行
 
 ```
 wget -O install.sh https://raw.githubusercontent.com/Evil0ctal/Douyin_TikTok_Download_API/main/bash/install.sh && sudo bash install.sh
 ```
 
-- 运行Bash脚本后会自动使用[config.py](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/config.py)来帮助你修改[config.ini](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/main/config.ini)
-
-```console
-Please edit config.ini, all input must be numbers!
-Default API port: 8000
-If you want use different port input new API port here: 80
-Use new port for web_api.py: 80
-Default API rate limit: 10/minute
-If you want use different rate limit input new rate limit here: 60
-Use new rate limit: 60/minute
-Default App port: 80
-If you want use different port input new App port here: 8080
-Use new port: 8080
-```
-
-- 随后脚本会询问你要启动的服务
-
-api：单独启动`web_api.py`
-
-web：单独启动`web_app.py`
-
-all：同时启动`web_api.py`和`web_app.py`
-
-```console
-Run API or Web? [api/web/all/quit] api
-Do you want to start the api service when system boot? [y/n] y
-Created symlink /etc/systemd/system/multi-user.target.wants/web_api.service → /etc/systemd/system/web_api.service.
-API service will start when system boot!
-Starting API...
-API is running! You can visit http://your_ip:port
-You can stop the api service by running: systemctl stop web_api.service
-```
-
 > 开启/停止服务
 
-- web服务：`systemctl start/stop web_app.service`
-- api服务：`systemctl start/stop web_api.service`
+- 使用以下命令来控制服务的运行或停止：
+  - `sudo systemctl start Douyin_TikTok_Download_API.service`
+  - `sudo systemctl stop Douyin_TikTok_Download_API.service`
 
 > 开启/关闭开机自动运行
 
-- web服务：`systemctl enable/disable web_app.service`
-- api服务：`systemctl enable/disable web_api.service`
+- 使用以下命令来设置服务开机自动运行或取消开机自动运行：
+  - `sudo systemctl enable Douyin_TikTok_Download_API.service`
+  - `sudo systemctl disable Douyin_TikTok_Download_API.service`
 
 > 更新项目
 
-- `cd /www/wwwroot/Douyin_TikTok_Download_API/bash`
-- `sudo sh update.sh`
+- 项目更新时，确保更新脚本在虚拟环境中执行，更新所有依赖。进入项目bash目录并运行update.sh：
+- `cd /www/wwwroot/Douyin_TikTok_Download_API/bash && sudo bash update.sh`
 
 ## 💽部署(方式二 Docker)
 
-> 💡Docker Image repo: [Docker Hub](https://hub.docker.com/repository/docker/evil0ctal/douyin_tiktok_download_api)
+> 💡提示：Docker部署是最简单的部署方式，适合不熟悉Linux的用户，这种方法适合保证环境一致性、隔离性和快速设置。
+> 请使用能正常访问Douyin或TikTok的服务器，否则可能会出现奇怪的BUG。
 
-- 安装docker
+### 准备工作
 
-```yaml
-curl -fsSL get.docker.com -o get-docker.sh&&sh get-docker.sh &&systemctl enable docker&&systemctl start docker
+开始之前，请确保您的系统已安装Docker。如果还未安装Docker，可以从[Docker官方网站](https://www.docker.com/products/docker-desktop/)下载并安装。
+
+### 步骤1：拉取Docker镜像
+
+首先，从Docker Hub拉取最新的Douyin_TikTok_Download_API镜像。
+
+```bash
+docker pull evil0ctal/douyin_tiktok_download_api:latest
 ```
 
-- 留下config.int和docker-compose.yml文件即可
-- 运行命令,让容器在后台运行
+如果需要，可以替换`latest`为你需要部署的具体版本标签。
 
-```yaml
-docker compose up -d
+### 步骤2：运行Docker容器
+
+拉取镜像后，您可以从此镜像启动一个容器。以下是运行容器的命令，包括基本配置：
+
+```bash
+docker run -d --name douyin_tiktok_api -p 80:80 evil0ctal/douyin_tiktok_download_api
 ```
 
-- 查看容器日志
+这个命令的每个部分作用如下：
 
-```yaml
-docker logs -f douyin_tiktok_download_api
+* `-d`：在后台运行容器（分离模式）。
+* `--name douyin_tiktok_api `：将容器命名为`douyin_tiktok_api `。
+* `-p 80:80`：将主机上的80端口映射到容器的80端口。根据您的配置或端口可用性调整端口号。
+* `evil0ctal/douyin_tiktok_download_api`：要使用的Docker镜像名称。
+
+### 步骤3：验证容器是否运行
+
+使用以下命令检查您的容器是否正在运行：
+
+```bash
+docker ps
 ```
 
-- 删除容器
+这将列出所有活动容器。查找`douyin_tiktok_api `以确认其正常运行。
 
-```yaml
-docker rm -f douyin_tiktok_download_api
+### 步骤4：访问应用程序
+
+容器运行后，您应该能够通过`http://localhost`或API客户端访问Douyin_TikTok_Download_API。如果配置了不同的端口或从远程位置访问，请调整URL。
+
+### 可选：自定义Docker命令
+
+对于更高级的部署，您可能希望自定义Docker命令，包括环境变量、持久数据的卷挂载或其他Docker参数。这是一个示例：
+
+```bash
+docker run -d --name douyin_tiktok_api -p 80:80 \
+  -v /path/to/your/data:/data \
+  -e MY_ENV_VAR=my_value \
+  evil0ctal/douyin_tiktok_download_api
 ```
 
-- 更新
+* `-v /path/to/your/data:/data`：将主机上的`/path/to/your/data`目录挂载到容器的`/data`目录，用于持久化或共享数据。
+* `-e MY_ENV_VAR=my_value`：在容器内设置环境变量`MY_ENV_VAR`，其值为`my_value`。
 
-```yaml
-docker compose pull && docker compose down && docker compose up -d
+### 配置文件修改
+
+项目的大部分配置可以在以下几个目录中的`config.yaml`文件进行修改：
+
+* `/crawlers/douyin/web/config.yaml`
+* `/crawlers/tiktok/web/config.yaml`
+* `/crawlers/tiktok/app/config.yaml`
+
+### 步骤5：停止并移除容器
+
+需要停止和移除容器时，使用以下命令：
+
+```bash
+# Stop
+docker stop douyin_tiktok_api 
+
+# Remove
+docker rm douyin_tiktok_api 
 ```
-
-## ❤️ 贡献者
-
-[![](https://github.com/Evil0ctal.png?size=50)](https://github.com/Evil0ctal)
-[![](https://github.com/jw-star.png?size=50)](https://github.com/jw-star)
-[![](https://github.com/Jeffrey-deng.png?size=50)](https://github.com/Jeffrey-deng)
-[![](https://github.com/chris-ss.png?size=50)](https://github.com/chris-ss)
-[![](https://github.com/weixuan00.png?size=50)](https://github.com/weixuan00)
-[![](https://github.com/Tairraos.png?size=50)](https://github.com/Tairraos)
 
 ## 📸截图
 
@@ -384,10 +448,8 @@ Web main interface:
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Evil0ctal/Douyin_TikTok_Download_API&type=Timeline)](https://star-history.com/#Evil0ctal/Douyin_TikTok_Download_API&Timeline)
 
-[MIT License](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/Stable/LICENSE)
+[Apache-2.0 license](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/Stable/LICENSE)
 
 > Start: 2021/11/06
+
 > GitHub: [@Evil0ctal](https://github.com/Evil0ctal)
-> Contact: Evil0ctal1985@gmail.com
-
-

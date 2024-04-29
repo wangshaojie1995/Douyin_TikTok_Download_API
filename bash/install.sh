@@ -1,93 +1,55 @@
 #!/bin/bash
 
-echo 'installing  Git...'
+# Set script to exit on any errors.
+set -e
 
-apt-get install git
+echo 'Updating package lists...'
+sudo apt-get update
 
-echo 'installing  Python3...'
+echo 'Installing Git...'
+sudo apt-get install -y git
 
-apt install python3
+echo 'Installing Python3...'
+sudo apt install -y python3
 
-echo 'installing  PIP3...'
+echo 'Installing PIP3...'
+sudo apt install -y python3-pip
 
-apt install python3-pip
+echo 'Installing python3-venv...'
+sudo apt install -y python3-venv
 
 echo 'Creating path: /www/wwwroot'
+sudo mkdir -p /www/wwwroot
 
-mkdir -p /www/wwwroot
-
-cd /www/wwwroot || exit
+cd /www/wwwroot || { echo "Failed to change directory to /www/wwwroot"; exit 1; }
 
 echo 'Cloning Douyin_TikTok_Download_API.git from Github!'
+sudo git clone https://github.com/Evil0ctal/Douyin_TikTok_Download_API.git
 
-git clone https://github.com/Evil0ctal/Douyin_TikTok_Download_API.git
+cd Douyin_TikTok_Download_API/ || { echo "Failed to change directory to Douyin_TikTok_Download_API"; exit 1; }
 
-cd Douyin_TikTok_Download_API/ || exit
+echo 'Creating a virtual environment'
+python3 -m venv venv
 
+echo 'Activating the virtual environment'
+source venv/bin/activate
+
+echo 'Setting pip to use the default PyPI index'
+pip config set global.index-url https://pypi.org/simple/
+
+echo 'Installing dependencies from requirements.txt'
 pip install -r requirements.txt
 
-echo 'Please edit config.ini, all input must be numbers!'
+echo 'Deactivating the virtual environment'
+deactivate
 
-python3 config.py
+echo 'Adding Douyin_TikTok_Download_API to system service'
+sudo cp daemon/* /etc/systemd/system/
 
-cp /www/wwwroot/Douyin_TikTok_Download_API/daemon/* /etc/systemd/system/
+echo 'Enabling Douyin_TikTok_Download_API service'
+sudo systemctl enable Douyin_TikTok_Download_API.service
 
-read -r -p "Run API or Web? [api/web/all/quit] " input
-case $input in
-    [aA][pP][iI]|[aA])
-        read -r -p "Do you want to start the api service when system boot? [y/n] " input
-        case $input in
-            [yY])
-          systemctl enable web_api.service
-          echo "API service will start when system boot!"
-          ;;
-            [nN]| *)
-          echo "You can start the service by running: systemctl start web_api.service"
-          ;;
-        esac
-        echo "Starting API..."
-		    systemctl start web_api.service
-		    echo "API is running! You can visit http://your_ip:port"
-		    echo "You can stop the api service by running: systemctl stop web_api.service"
-        ;;
-    [wW][eE][bB]|[wW])
-        read -r -p "Do you want to start the app service when system boot? [y/n] " input
-        case $input in
-            [yY])
-          systemctl enable web_app.service
-          echo "Web service will start when system boot!"
-          ;;
-            [nN]| *)
-          echo "You can start the service by running: systemctl start web_app.service"
-          ;;
-        esac
-        echo "Staining APP..."
-		    systemctl start web_app.service
-		    echo "API is running! You can visit http://your_ip:port"
-		    echo "You can stop the api service by running: systemctl stop web_app.service"
-        ;;
-    [aA][lL][lL])
-      read -r -p "Do you want to start the app and api service when system boot? [y/n] " input
-        case $input in
-            [yY])
-          systemctl enable web_app.service
-          systemctl enable web_api.service
-          ;;
-            [nN]| *)
-          echo "You can start them on boot by these commands:"
-          echo  "systemctl enable (web_app.service||web_api.service)"
-          ;;
-        esac
-        echo "Starting WEB and API Services..."
-        systemctl start web_app.service
-		    systemctl start web_api.service
-		    echo "API and APP service are running!"
-		    echo "You can stop the api service by running following command: "
-		    echo "systemctl stop (web_app.service||web_api.service)"
-        ;;
-    *)
-        echo "Exiting without running anything..."
-        exit 1
-        ;;
-esac
+echo 'Starting Douyin_TikTok_Download_API service'
+sudo systemctl start Douyin_TikTok_Download_API.service
 
+echo 'Douyin_TikTok_Download_API installation complete!'
