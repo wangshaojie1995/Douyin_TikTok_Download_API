@@ -33,13 +33,13 @@ _Download prohibited videos, perform data analysis, download without watermark o
 
 ## 🔖TikHub.io API
 
-[TikHub.io](https://beta-web.tikhub.io/en-us/users/signin)It is an API platform that provides various public data interfaces including Douyin and TikTok. If you want to support[Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API)For project development, we strongly recommend that you choose[TikHub.io](https://beta-web.tikhub.io/en-us/users/signin)。
+[TikHub.io](https://api.tikhub.io/)It is an API platform that provides various public data interfaces including Douyin and TikTok. If you want to support[Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API)For project development, we strongly recommend that you choose[TikHub.io](https://api.tikhub.io/)。
 
 #### Features:
 
 > 📦 Ready to use right out of the box
 
-Eliminate cumbersome usage processes and use the encapsulated SDK for rapid development, making calls easier. All API interfaces are written in accordance with OpenAPI specifications and come with sample parameters.
+Simplify the use process and use the packaged SDK to quickly carry out development work. All API interfaces are designed based on RESTful architecture and are described and documented using OpenAPI specifications, with sample parameters included to ensure easier calling.
 
 > 💰 Cost advantage
 
@@ -55,6 +55,7 @@ Part of TikHub's source code will be open sourced on Github, and it will sponsor
 
 #### Link:
 
+-   Github:[TikHub Github](https://github.com/TikHubIO)
 -   Discord:[Tikhub discord](https://discord.com/invite/aMEAS8Xsvz)
 -   Register:[TikHub signup](https://beta-web.tikhub.io/en-us/users/signup)
 -   API Docs:[Cheers to my father, Dex](https://api.tikhub.io/)
@@ -262,7 +263,7 @@ Online:<https://api.douyin.wtf/docs>
 
 ## ⚠️Preparation work before deployment (please read carefully):
 
--   You need to solve crawler cookie risk control issues by yourself, otherwise the interface may become unusable.
+-   You need to solve the problem of crawler cookie risk control by yourself, otherwise the interface may become unusable. After modifying the configuration file, you need to restart the service for it to take effect. It is best to use the cookie of the account you have already logged in to.
     -   Douyin web cookie (obtain and replace the cookie in the configuration file below):
     -   <https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/30e56e5a7f97f87d60b1045befb1f6db147f8590/crawlers/douyin/web/config.yaml#L7>
     -   TikTok web-side cookies (obtain and replace the cookies in the configuration file below):

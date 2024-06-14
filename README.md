@@ -52,13 +52,13 @@
 
 ## 🔖TikHub.io API
 
-[TikHub.io](https://beta-web.tikhub.io/en-us/users/signin)是一个API平台，提供包括Douyin、TikTok在内的各种公开数据接口，如果您想支持 [Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API) 项目的开发，我们强烈建议您选择[TikHub.io](https://beta-web.tikhub.io/en-us/users/signin)。
+[TikHub.io](https://api.tikhub.io/)是一个API平台，提供包括Douyin、TikTok在内的各种公开数据接口，如果您想支持 [Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API) 项目的开发，我们强烈建议您选择[TikHub.io](https://api.tikhub.io/)。
 
 #### 特点：
 
 > 📦 开箱即用
 
-省去繁琐的使用流程，使用封装好的SDK快速进行开发，让调用变得更简单，所有API接口都按照OpenAPI规范进行编写，并且附带示例参数。
+简化使用流程，利用封装好的SDK迅速开展开发工作。所有API接口均依据RESTful架构设计，并使用OpenAPI规范进行描述和文档化，附带示例参数，确保调用更加简便。
 
 > 💰 成本优势
 
@@ -74,6 +74,7 @@ TikHub的部分源代码会开源在Github上，并且会赞助一些开源项�
 
 #### 链接：
 
+- Github: [TikHub Github](https://github.com/TikHubIO)
 - Discord: [TikHub Discord](https://discord.com/invite/aMEAS8Xsvz)
 - Register: [TikHub signup](https://beta-web.tikhub.io/en-us/users/signup)
 - API Docs: [TikHub API Docs](https://api.tikhub.io/)
@@ -285,7 +286,7 @@ https://www.tiktok.com/@evil0ctal/video/7156033831819037994
 
 ## ⚠️部署前的准备工作(请仔细阅读)：
 
-- 你需要自行解决爬虫Cookie风控问题，否则可能会导致接口无法使用。
+- 你需要自行解决爬虫Cookie风控问题，否则可能会导致接口无法使用，修改完配置文件后需要重启服务才能生效，并且最好使用已经登录过的账号的Cookie。
   - 抖音网页端Cookie（自行获取并替换下面配置文件中的Cookie）：
   - https://github.com/Evil0ctal/Douyin_TikTok_Download_API/blob/30e56e5a7f97f87d60b1045befb1f6db147f8590/crawlers/douyin/web/config.yaml#L7
   - TikTok网页端Cookie（自行获取并替换下面配置文件中的Cookie）：
