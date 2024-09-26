@@ -1,3 +1,37 @@
+# ==============================================================================
+# Copyright (C) 2021 Evil0ctal
+#
+# This file is part of the Douyin_TikTok_Download_API project.
+#
+# This project is licensed under the Apache License 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at:
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+# 　　　　 　　  ＿＿
+# 　　　 　　 ／＞　　フ
+# 　　　 　　| 　_　 _ l
+# 　 　　 　／` ミ＿xノ
+# 　　 　 /　　　 　 |       Feed me Stars ⭐ ️
+# 　　　 /　 ヽ　　 ﾉ
+# 　 　 │　　|　|　|
+# 　／￣|　　 |　|　|
+# 　| (￣ヽ＿_ヽ_)__)
+# 　＼二つ
+# ==============================================================================
+#
+# Contributor Link:
+#
+# - https://github.com/Koyomi781
+#
+# ==============================================================================
+
 import asyncio  # 异步I/O
 import os  # 系统操作
 import time  # 时间操作
@@ -6,10 +40,10 @@ import yaml  # 配置文件
 # 基础爬虫客户端和哔哩哔哩API端点
 from crawlers.base_crawler import BaseCrawler
 from crawlers.bilibili.web.endpoints import BilibiliAPIEndpoints
-
 # 哔哩哔哩工具类
-from crawlers.bilibili.web.utils import EndpointModels, bv2av, ResponseAnalyzer
-
+from crawlers.bilibili.web.utils import EndpointGenerator, bv2av, ResponseAnalyzer
+# 数据请求模型
+from crawlers.bilibili.web.models import UserPostVideos, UserProfile, ComPopular, UserDynamic, PlayUrl
 
 # 配置文件路径
 path = os.path.abspath(os.path.dirname(__file__))
@@ -26,17 +60,18 @@ class BilibiliWebCrawler:
         bili_config = config['TokenManager']['bilibili']
         kwargs = {
             "headers": {
-                    "accept-language": bili_config["headers"]["accept-language"],
-                    "origin": bili_config["headers"]["origin"],
-                    "referer": bili_config["headers"]["referer"],
-                    "user-agent": bili_config["headers"]["user-agent"],
-                    "cookie": bili_config["headers"]["cookie"],
+                "accept-language": bili_config["headers"]["accept-language"],
+                "origin": bili_config["headers"]["origin"],
+                "referer": bili_config["headers"]["referer"],
+                "user-agent": bili_config["headers"]["user-agent"],
+                "cookie": bili_config["headers"]["cookie"],
             },
             "proxies": {"http://": bili_config["proxies"]["http"], "https://": bili_config["proxies"]["https"]},
         }
         return kwargs
 
     "-------------------------------------------------------handler接口列表-------------------------------------------------------"
+
     # 获取单个视频详情信息
     async def fetch_one_video(self, bv_id: str) -> dict:
         # 获取请求头信息
@@ -46,6 +81,22 @@ class BilibiliWebCrawler:
         async with base_crawler as crawler:
             # 创建请求endpoint
             endpoint = f"{BilibiliAPIEndpoints.POST_DETAIL}?bvid={bv_id}"
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
+        return response
+
+    # 获取视频流地址
+    async def fetch_video_playurl(self, bv_id: str, cid: str, qn: str = "64") -> dict:
+        # 获取请求头信息
+        kwargs = await self.get_bilibili_headers()
+        # 创建基础爬虫对象
+        base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
+        async with base_crawler as crawler:
+            # 通过模型生成基本请求参数
+            params = PlayUrl(bvid=bv_id, cid=cid, qn=qn)
+            # 创建请求endpoint
+            generator = EndpointGenerator(params.dict())
+            endpoint = await generator.video_playurl_endpoint()
             # 发送请求，获取请求响应结果
             response = await crawler.fetch_get_json(endpoint)
         return response
@@ -62,8 +113,11 @@ class BilibiliWebCrawler:
         # 创建基础爬虫对象
         base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
         async with base_crawler as crawler:
+            # 通过模型生成基本请求参数
+            params = UserPostVideos(mid=uid, pn=pn)
             # 创建请求endpoint
-            endpoint = await EndpointModels().user_post_videos_endpoint(uid=uid, pn=pn)
+            generator = EndpointGenerator(params.dict())
+            endpoint = await generator.user_post_videos_endpoint()
             # 发送请求，获取请求响应结果
             response = await crawler.fetch_get_json(endpoint)
         return response
@@ -96,8 +150,8 @@ class BilibiliWebCrawler:
         base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
         # 发送请求，获取请求响应结果
         async with base_crawler as crawler:
-                endpoint = f"{BilibiliAPIEndpoints.COLLECT_VIDEOS}?media_id={folder_id}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web"
-                response = await crawler.fetch_get_json(endpoint)
+            endpoint = f"{BilibiliAPIEndpoints.COLLECT_VIDEOS}?media_id={folder_id}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web"
+            response = await crawler.fetch_get_json(endpoint)
         return response
 
     # 获取指定用户的信息
@@ -107,9 +161,13 @@ class BilibiliWebCrawler:
         # 创建基础爬虫对象
         base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
         async with base_crawler as crawler:
+            # 通过模型生成基本请求参数
+            params = UserProfile(mid=uid)
             # 创建请求endpoint
-            endpoint = await EndpointModels().user_profile_endpoint(uid=uid)
-            response = await crawler.fetch_get_json(endpoint=endpoint)
+            generator = EndpointGenerator(params.dict())
+            endpoint = await generator.user_profile_endpoint()
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
         return response
 
     # 获取综合热门视频信息
@@ -119,9 +177,13 @@ class BilibiliWebCrawler:
         # 创建基础爬虫对象
         base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
         async with base_crawler as crawler:
+            # 通过模型生成基本请求参数
+            params = ComPopular(pn=pn)
             # 创建请求endpoint
-            endpoint = await EndpointModels().com_popular_endpoint(pn=pn)
-            response = await crawler.fetch_get_json(endpoint=endpoint)
+            generator = EndpointGenerator(params.dict())
+            endpoint = await generator.com_popular_endpoint()
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
         return response
 
     # 获取指定视频的评论
@@ -165,11 +227,28 @@ class BilibiliWebCrawler:
         # 创建基础爬虫对象
         base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
         async with base_crawler as crawler:
+            # 通过模型生成基本请求参数
+            params = UserDynamic(host_mid=uid, offset=offset)
             # 创建请求endpoint
-            endpoint = await EndpointModels().user_dynamic_endpoint(uid=uid, offset=offset)
+            generator = EndpointGenerator(params.dict())
+            endpoint = await generator.user_dynamic_endpoint()
+            print(endpoint)
             # 发送请求，获取请求响应结果
             response = await crawler.fetch_get_json(endpoint)
         return response
+
+    # 获取视频实时弹幕
+    async def fetch_video_danmaku(self, cid: str):
+        # 获取请求头信息
+        kwargs = await self.get_bilibili_headers()
+        # 创建基础爬虫对象
+        base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
+        async with base_crawler as crawler:
+            # 创建请求endpoint
+            endpoint = f"https://comment.bilibili.com/{cid}.xml"
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_response(endpoint)
+        return response.text
 
     # 获取指定直播间信息
     async def fetch_live_room_detail(self, room_id: str) -> dict:
@@ -185,23 +264,50 @@ class BilibiliWebCrawler:
         return response
 
     # 获取指定直播间视频流
-    # async def fetch_live_videos(self, room_id: str) -> dict:
-    #     # 获取请求头信息
-    #     kwargs = await self.get_bilibili_headers()
-    #     # 创建基础爬虫对象
-    #     base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
-    #     async with base_crawler as crawler:
-    #         # 创建请求endpoint
-    #         endpoint = f"{BilibiliAPIEndpoints.LIVE_VIDEOS}?cid={room_id}&quality=4"
-    #         # 发送请求，获取请求响应结果
-    #         response = await crawler.fetch_get_json(endpoint)
-    #     return response
+    async def fetch_live_videos(self, room_id: str) -> dict:
+        # 获取请求头信息
+        kwargs = await self.get_bilibili_headers()
+        # 创建基础爬虫对象
+        base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
+        async with base_crawler as crawler:
+            # 创建请求endpoint
+            endpoint = f"{BilibiliAPIEndpoints.LIVE_VIDEOS}?cid={room_id}&quality=4"
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
+        return response
+
+    # 获取指定分区正在直播的主播
+    async def fetch_live_streamers(self, area_id: str, pn: int):
+        # 获取请求头信息
+        kwargs = await self.get_bilibili_headers()
+        # 创建基础爬虫对象
+        base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
+        async with base_crawler as crawler:
+            # 创建请求endpoint
+            endpoint = f"{BilibiliAPIEndpoints.LIVE_STREAMER}?platform=web&parent_area_id={area_id}&page={pn}"
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
+        return response
 
     "-------------------------------------------------------utils接口列表-------------------------------------------------------"
+
     # 通过bv号获得视频aid号
-    async def get_aid(self, bv_id: str) -> int:
+    async def bv_to_aid(self, bv_id: str) -> int:
         aid = await bv2av(bv_id=bv_id)
         return aid
+
+    # 通过bv号获得视频分p信息
+    async def fetch_video_parts(self, bv_id: str) -> str:
+        # 获取请求头信息
+        kwargs = await self.get_bilibili_headers()
+        # 创建基础爬虫对象
+        base_crawler = BaseCrawler(proxies=kwargs["proxies"], crawler_headers=kwargs["headers"])
+        async with base_crawler as crawler:
+            # 创建请求endpoint
+            endpoint = f"{BilibiliAPIEndpoints.VIDEO_PARTS}?bvid={bv_id}"
+            # 发送请求，获取请求响应结果
+            response = await crawler.fetch_get_json(endpoint)
+        return response
 
     # 获取所有直播分区列表
     async def fetch_all_live_areas(self) -> dict:
@@ -216,23 +322,24 @@ class BilibiliWebCrawler:
             response = await crawler.fetch_get_json(endpoint)
         return response
 
-    # 根据uid生成wts及其对应w_rid参数(包含dm_img_inter参数)
-    # (仅示例 不同接口所需要传进去的参数不同)(待改进)
-    async def uid_to_wrid(self, uid: str) -> dict:
-        result = await EndpointModels().get_wrid_wts_by_uid(uid=uid)
-        return result
-
     "-------------------------------------------------------main-------------------------------------------------------"
-    async def main(self):
 
-        "-------------------------------------------------------handler接口列表-------------------------------------------------------"
+    async def main(self):
+        """-------------------------------------------------------handler接口列表-------------------------------------------------------"""
+
         # 获取单个作品数据
         # bv_id = 'BV1M1421t7hT'
         # result = await self.fetch_one_video(bv_id=bv_id)
         # print(result)
 
+        # 获取视频流地址
+        # bv_id = 'BV1y7411Q7Eq'
+        # cid = '171776208'
+        # result = await self.fetch_video_playurl(bv_id=bv_id, cid=cid)
+        # print(result)
+
         # 获取用户发布作品数据
-        # uid = '178360345'
+        # uid = '94510621'
         # pn = 1
         # result = await self.fetch_user_post_videos(uid=uid, pn=pn)
         # print(result)
@@ -273,19 +380,30 @@ class BilibiliWebCrawler:
 
         # 获取指定用户动态
         # uid = "16015678"
-        # offset = "953154282154098691"     # 翻页索引，为空即从最新动态开始，可从获得到的动态数据里面获得
+        # offset = ""     # 翻页索引，为空即从最新动态开始
         # result = await self.fetch_user_dynamic(uid=uid, offset=offset)
         # print(result)
 
+        # 获取视频实时弹幕
+        # cid = "1639235405"
+        # result = await self.fetch_video_danmaku(cid=cid)
+        # print(result)
+
         # 获取指定直播间信息
-        # room_id = "22816111"
+        # room_id = "1815229528"
         # result = await self.fetch_live_room_detail(room_id=room_id)
         # print(result)
 
         # 获取直播间视频流
-        # room_id = "22816111"
-        # result = await self.fetch_user_live_videos_by_room_id(room_id=room_id)
+        # room_id = "1815229528"
+        # result = await self.fetch_live_videos(room_id=room_id)
         # print(result)
+
+        # 获取指定分区正在直播的主播
+        pn = 1
+        area_id = '9'
+        result = await self.fetch_live_streamers(area_id=area_id, pn=pn)
+        print(result)
 
         "-------------------------------------------------------utils接口列表-------------------------------------------------------"
         # 通过bv号获得视频aid号
@@ -293,15 +411,14 @@ class BilibiliWebCrawler:
         # aid = await self.get_aid(bv_id=bv_id)
         # print(aid)
 
+        # 通过bv号获得视频分p信息
+        # bv_id = "BV1vf421i7hV"
+        # result = await self.fetch_video_parts(bv_id=bv_id)
+        # print(result)
+
         # 获取所有直播分区列表
         # result = await self.fetch_all_live_areas()
         # print(result)
-
-        # 根据uid生成wts及其对应w_rid参数(包含dm_img_inter参数)
-        # (仅示例 不同接口所需要传进去的参数不同)(待改进)
-        # uid = '178360345'
-        # w_rid = await self.uid_to_wrid(uid=uid)
-        # print(w_rid)
 
 
 if __name__ == '__main__':

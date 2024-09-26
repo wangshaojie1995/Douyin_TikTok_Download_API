@@ -15,7 +15,7 @@
 
 ## Sponsor
 
-这些赞助商已付费放置在这里，**Douyin_TikTok_Download_API**The project will always be free and open source. If you would like to become a sponsor of this project, please check out my[GitHub Sponsor Page](https://github.com/sponsors/evil0ctal)。
+These sponsors have paid to be placed here,**Douyin_TikTok_Download_API**The project will always be free and open source. If you would like to become a sponsor of this project, please check out my[GitHub Sponsor Page](https://github.com/sponsors/evil0ctal)。
 
 <div align="center">
   <hr>
@@ -89,7 +89,7 @@ Part of TikHub's source code will be open sourced on Github, and it will sponsor
 
 ## 🖥Demo site: I am very vulnerable...please do not stress test (·•᷄ࡇ•᷅ )
 
-> 😾The online download function of the demo site has been turned off, and due to cookie reasons, the availability of Douyin's parsing and API services cannot be guaranteed on the Demo site.
+> 😾The online download function of the demo site has been turned off, and due to cookie reasons, Douyin's parsing and API services cannot guarantee availability on the Demo site.
 
 🍔Web APP:<https://douyin.wtf/>
 
@@ -121,7 +121,7 @@ Part of TikHub's source code will be open sourced on Github, and it will sponsor
 
 > **_/app/web_**
 
--   use`PyWebIO`A simple web program created to process the values ​​entered on the web page and use them`Crawlers`The related class processing interface outputs related data on the web page.
+-   use`PyWebIO`A simple web program created to process the values ​​entered on the web page and then use them`Crawlers`The related class processing interface outputs related data on the web page.
 
 **_Most of the parameters of the above files can be found in the corresponding`config.yaml`Make changes in_**
 
@@ -184,7 +184,7 @@ Part of TikHub's source code will be open sourced on Github, and it will sponsor
         -   [x] Get user homepage work data
         -   [x] Obtain the data of works liked by the user's homepage
         -   [x] Get user homepage information
-        -   [x] Get user homepage fan data
+        -   [x] Get user home page fan data
         -   [x] Get user homepage follow data
         -   [x] Get user homepage collection work data
         -   [x] Get user homepage collection data
@@ -202,16 +202,21 @@ Part of TikHub's source code will be open sourced on Github, and it will sponsor
         -   [x] Get list unique_id
     -   Bilibili web version API
         -   [x] Get individual video details
+        -   [x] Get video stream address
         -   [x] Obtain user-published video work data
-        -   [x] Get all the user's favorites information
+        -   [x] Get all favorites information of the user
         -   [x] Get video data in specified favorites
         -   [x] Get information about a specified user
         -   [x] Get comprehensive popular video information
         -   [x] Get comments for specified video
         -   [x] Get the reply to the specified comment under the video
         -   [x] Get the specified user's updates
+        -   [x] Get real-time video barrages
         -   [x] Get specified live broadcast room information
+        -   [x] Get live room video stream
+        -   [x] Get the anchors who are live broadcasting in the specified partition
         -   [x] Get a list of all live broadcast partitions
+        -   [x] Obtain video sub-p information through bv number
 
 * * *
 
@@ -238,7 +243,7 @@ asyncio.run(hybrid_parsing(url=input("Paste Douyin/TikTok/Bilibili share URL her
 
 ## 🗺️Supported submission formats:
 
-> 💡Tip: Including but not limited to the following examples. If you encounter link parsing failure, please open a new one.[issue](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/issues)
+> 💡Tip: Including but not limited to the following examples, if you encounter link parsing failure, please open a new one[issue](https://github.com/Evil0ctal/Douyin_TikTok_Download_API/issues)
 
 -   Douyin sharing password (copy in APP)
 
@@ -316,7 +321,7 @@ Online:<https://api.douyin.wtf/docs>
 
 ## 💻Deployment (Method 1 Linux)
 
-> 💡Tips: It is best to deploy this project to a server in the United States, otherwise strange BUGs may appear.
+> 💡Tips: It is best to deploy this project to a server in the United States, otherwise strange BUGs may occur.
 
 Recommended for everyone to use[Digitalocean](https://www.digitalocean.com/)server, because you can have sex for free.
 
@@ -343,7 +348,7 @@ My invitation link:
 
 > Turn on/off automatic operation at startup
 
--   Use the following command to set the service to run automatically at boot or cancel automatic run at boot:
+-   Use the following commands to set the service to run automatically at boot or cancel automatic run at boot:
     -   `sudo systemctl enable Douyin_TikTok_Download_API.service`
     -   `sudo systemctl disable Douyin_TikTok_Download_API.service`
 
@@ -424,7 +429,7 @@ Most of the configuration of the project can be found in the following directori
 
 ### Step 5: Stop and remove the container
 
-When you need to stop and remove containers, use the following commands:
+When you need to stop and remove a container, use the following commands:
 
 ```bash
 # Stop
